@@ -13,7 +13,7 @@ interface PoseKeypoints {
   keypoints: Keypoints;
 }
 
-interface BodyPart {
+export interface BodyPart {
   score: number;
   part: BodyPartName;
   position: {

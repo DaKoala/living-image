@@ -10,3 +10,5 @@ declare global {
         draw: () => void;
     }
 }
+
+declare module '*.jpg';
