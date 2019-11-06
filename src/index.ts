@@ -34,6 +34,26 @@ const modelList = [
   './scream',
 ]
 
+let hintIndex = 0;
+const hintList = [
+  'Interact the image with your face!',
+  'Move your face horizontally to change brightness',
+  'Move your face forward/backward to change scale',
+  'Tilt your head to rotate the image',
+  'Turn your head left/right to switch image',
+  'Nod to transfer image style',
+]
+
+function changeHeader(text?: string) {
+  const header = document.querySelector('h1');
+  const nextText = text || hintList[hintIndex];
+  if (!text) {
+    hintIndex += 1;
+    hintIndex %= hintList.length;
+  }
+  header.textContent = nextText;
+}
+
 async function transferImage() {
   if (!isTransferReady) {
     return;
@@ -44,9 +64,11 @@ async function transferImage() {
     imgEle.src = srcList[srcIndex];
     return;
   }
+  changeHeader('Transferring style...');
   style = ml5.styleTransfer(model, () => {});
   await style.ready;
   style.transfer(imgEle, handleTransferImage);
+  changeHeader();
   isTransferReady = false;
 }
 
@@ -65,6 +87,7 @@ function draw() {
   const { body } = bodyManager;
   if (body) {
     if (!face) {
+      setInterval(changeHeader, 5000);
       face = new Face(body, () => {
         isTransferReady = true;
         modelIndex += 1;
