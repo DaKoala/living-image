@@ -87,6 +87,7 @@ function draw() {
   const { body } = bodyManager;
   if (body) {
     if (!face) {
+      changeHeader('Interact the image with your face!');
       setInterval(changeHeader, 5000);
       face = new Face(body, () => {
         isTransferReady = true;
